@@ -228,7 +228,7 @@ public class KeratinGradleExtension implements KeratinGradleExtensionAPI {
 			VersionsManifest.Entry entry = manifest.findOrThrow(minecraftVersion);
 
 			try {
-				Downloader.download(project, entry.details(), entry.detailsSha1(), file);
+				Downloader.download(project, entry.url(), entry.detailsSha1(), file);
 			} catch (Exception e) {
 				// if the file already exits, just use it despite the download failing
 				// it is likely still valid anyway
@@ -442,7 +442,7 @@ public class KeratinGradleExtension implements KeratinGradleExtensionAPI {
 
 			dependencies.add(decompileClasspath.getName(), "org.vineflower:vineflower:1.11.1");
 			dependencies.add(decompileClasspath.getName(), "net.fabricmc:cfr:0.0.9");
-			dependencies.add(enigmaRuntime.getName(), "net.ornithemc:enigma-swing:2.6.1");
+			dependencies.add(enigmaRuntime.getName(), "net.ornithemc:enigma-swing:2.6.2");
 			dependencies.add(enigmaRuntime.getName(), "org.quiltmc:quilt-enigma-plugin:2.4.0");
 
 			// exclude the Quilt Enigma dependency from the Quilt Enigma Plugin
@@ -728,7 +728,7 @@ public class KeratinGradleExtension implements KeratinGradleExtensionAPI {
 				});
 
 				TaskProvider<?> updateNestsBuildsAndGraph = tasks.register("refreshGraph", RefreshGraphTask.class, task -> {
-					task.dependsOn(updateNestsBuilds, processMinecraft);
+					task.dependsOn(processMinecraft);
 					task.getClassNamePattern().convention(classNamePattern);
 					task.getClassNamePattern().finalizeValueOnRead();
 				});

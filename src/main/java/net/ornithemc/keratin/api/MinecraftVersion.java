@@ -16,30 +16,30 @@ public record MinecraftVersion(String id, VersionDetails client, VersionDetails 
 		VersionDetails clientDetails = keratin.getVersionDetails(minecraftClientVersion);
 		VersionDetails serverDetails = keratin.getVersionDetails(minecraftServerVersion);
 
-		if (!clientDetails.client() && !serverDetails.server()) {
-			throw new RuntimeException("Minecraft version " + s + " is neither client nor server! Weird!");
-		}
-		if (clientDetails.client() && serverDetails.server() && !Objects.equals(clientDetails.id(), serverDetails.id())) {
-			// client id != server id, thus different client and server versions
-			// this is only allowed for certain alpha versions
-			if (clientDetails.compareTo(Constants.SEMVER_a1_0_15) < 0 || serverDetails.compareTo(Constants.SEMVER_a0_1_0) < 0) {
-				throw new RuntimeException("Cannot combine different client and server versions older than a1.0.15/server-a0.1.0!");
-			}
-			if (clientDetails.compareTo(Constants.SEMVER_b1_0) >= 0 || serverDetails.compareTo(Constants.SEMVER_b1_0) >= 0) {
-				throw new RuntimeException("Cannot combine different client and server versions since b1.0!");
-			}
-
-			// TODO: check that specific alpha versions can actually be combined? e.g. do not allow a1.2.6+server-a0.1.0
-		}
-
-		clientDetails = clientDetails.client() ? clientDetails : null;
-		serverDetails = serverDetails.server() ? serverDetails : null;
+//		if (!clientDetails.client() && !serverDetails.server()) {
+//			throw new RuntimeException("Minecraft version " + s + " is neither client nor server! Weird!");
+//		}
+//		if (clientDetails.client() && serverDetails.server() && !Objects.equals(clientDetails.id(), serverDetails.id())) {
+//			// client id != server id, thus different client and server versions
+//			// this is only allowed for certain alpha versions
+//			if (clientDetails.compareTo(Constants.SEMVER_a1_0_15) < 0 || serverDetails.compareTo(Constants.SEMVER_a0_1_0) < 0) {
+//				throw new RuntimeException("Cannot combine different client and server versions older than a1.0.15/server-a0.1.0!");
+//			}
+//			if (clientDetails.compareTo(Constants.SEMVER_b1_0) >= 0 || serverDetails.compareTo(Constants.SEMVER_b1_0) >= 0) {
+//				throw new RuntimeException("Cannot combine different client and server versions since b1.0!");
+//			}
+//
+//			// TODO: check that specific alpha versions can actually be combined? e.g. do not allow a1.2.6+server-a0.1.0
+//		}
+//
+//		clientDetails = clientDetails.client() ? clientDetails : null;
+//		serverDetails = serverDetails.server() ? serverDetails : null;
 
 		MinecraftVersion minecraftVersion = new MinecraftVersion(s, clientDetails, serverDetails);
 
-		if (minecraftVersion.hasSharedObfuscation() && !minecraftVersion.hasSharedVersioning()) {
-			throw new RuntimeException("Minecraft version " + minecraftVersion.id + " has shared obfuscation but not shared versioning - how?");
-		}
+//		if (minecraftVersion.hasSharedObfuscation() && !minecraftVersion.hasSharedVersioning()) {
+//			throw new RuntimeException("Minecraft version " + minecraftVersion.id + " has shared obfuscation but not shared versioning - how?");
+//		}
 
 		return minecraftVersion;
 	}
@@ -79,21 +79,21 @@ public record MinecraftVersion(String id, VersionDetails client, VersionDetails 
 	public boolean hasSharedObfuscation() {
 		// either side could be missing but for versions >=1.3 we still
 		// consider them to have shared obfuscation if the value is true
-		return (client != null ? client : server).sharedMappings();
+		return true;
 	}
 
 	public boolean hasSharedVersioning() {
 		// since beta the client and server jars use the same versioning
 		// alpha: 1.x.x vs 0.x.x - classic 0.x vs 1.x
-		return (client != null ? client : server).compareTo(Constants.SEMVER_b1_0) >= 0;
+		return true;
 	}
 
 	public boolean canBeMerged() {
-		return canBeMergedLikeAlpha() || canBeMergedLikeBeta() || canBeMergedLikeRelease();
+		return true;
 	}
 
 	public boolean canBeMergedAsObfuscated() {
-		return canBeMergedLikeRelease();
+		return true;
 	}
 
 	public boolean canBeMergedAsMapped() {
@@ -101,11 +101,11 @@ public record MinecraftVersion(String id, VersionDetails client, VersionDetails 
 	}
 
 	public boolean canBeMergedLikeAlpha() {
-		return client != null && server != null && !hasSharedObfuscation() && !hasSharedVersioning();
+		return false;
 	}
 
 	public boolean canBeMergedLikeBeta() {
-		return client != null && server != null && !hasSharedObfuscation() && hasSharedVersioning();
+		return false;
 	}
 
 	public boolean canBeMergedLikeRelease() {
@@ -116,7 +116,7 @@ public record MinecraftVersion(String id, VersionDetails client, VersionDetails 
 		// some versions are obfuscated in such a way that class names will
 		// reveal some inner classes but either not all of them, or the actual
 		// inner class attributes are missing from the class files
-		return !hasSharedVersioning() || id.equals(Constants.VERSION_13w07a);
+		return false;
 	}
 
 	public boolean usesSerializableForLevelSaving() {

@@ -2,14 +2,14 @@ package net.ornithemc.keratin;
 
 public class Constants {
 
-	public static final String ORNITHE_GLOBAL_CACHE_DIR = "ornithe-keratin";
-	public static final String ORNITHE_LOCAL_CACHE_DIR = "ornithe-keratin";
+	public static final String ORNITHE_GLOBAL_CACHE_DIR = "lf-keratin";
+	public static final String ORNITHE_LOCAL_CACHE_DIR = "lf-keratin";
 
-	public static final String VERSIONS_MANIFEST_URL = "https://ornithemc.net/mc-versions/gen%d/version_manifest.json";
+	public static final String VERSIONS_MANIFEST_URL = "https://piston-meta.mojang.com/mc/game/version_manifest.json";
 
-	public static final String MAVEN_NAME = "Ornithe";
-	public static final String MAVEN_URL = "https://maven.ornithemc.net/releases";
-	public static final String META_URL = "https://meta.ornithemc.net";
+	public static final String MAVEN_NAME = "Legacy Fabric";
+	public static final String MAVEN_URL = "https://maven.legacyfabric.net";
+	public static final String META_URL = "https://meta.legacyfabric.net";
 
 	public static final String FABRIC_MAVEN_NAME = "Fabric";
 	public static final String FABRIC_MAVEN_URL = "https://maven.fabricmc.net";
@@ -26,8 +26,8 @@ public class Constants {
 	public static final String MINECRAFT_LIBRARIES_MAVEN_NAME = "Minecraft Libraries";
 	public static final String MINECRAFT_LIBRARIES_MAVEN_URL = "https://libraries.minecraft.net";
 
-	public static final String INTERMEDIARY_ENDPOINT = "/v3/versions/gen%d/intermediary";
-	public static final String FEATHER_ENDPOINT = "/v3/versions/gen%d/feather";
+	public static final String INTERMEDIARY_ENDPOINT = "/v2/versions/intermediary";
+	public static final String FEATHER_ENDPOINT = "/v2/versions/yarn";
 	public static final String RAVEN_ENDPOINT = "/v3/versions/raven";
 	public static final String SPARROW_ENDPOINT = "/v3/versions/sparrow";
 	public static final String NESTS_ENDPOINT = "/v3/versions/nests";

@@ -10,12 +10,12 @@ def ENV = System.getenv()
 base {
 	archivesName = project.name
 }
-version = '41.2'
+version = '41.2.11'
 group = project.maven_group
 
-if (!ENV.MAVEN_URL) {
-	version += '+local'
-}
+//if (!ENV.MAVEN_URL) {
+//	version += '+local'
+//}
 
 repositories {
 	maven {
@@ -90,7 +90,7 @@ jar {
 gradlePlugin {
 	plugins {
 		keratin {
-			id = 'keratin'
+			id = 'lf-keratin'
 			implementationClass = 'net.ornithemc.keratin.KeratinGradlePlugin'
 		}
 	}
@@ -121,8 +121,8 @@ publishing {
 
 		// Manually crate the plugin marker for snapshot versions
 		snapshotPlugin(MavenPublication) {
-			groupId 'keratin'
-			artifactId 'keratin.gradle.plugin'
+			groupId 'lf-keratin'
+			artifactId 'lf-keratin.gradle.plugin'
 			version project.version + '-SNAPSHOT'
 
 			pom.withXml({
@@ -132,45 +132,26 @@ publishing {
 				Node dependencies = root.appendChild(document.createElement('dependencies'))
 				Node dependency = dependencies.appendChild(document.createElement('dependency'))
 				Node groupId = dependency.appendChild(document.createElement('groupId'))
-				groupId.setTextContent('net.ornithemc')
+				groupId.setTextContent('net.legacyfabric')
 				Node artifactId = dependency.appendChild(document.createElement('artifactId'))
-				artifactId.setTextContent('keratin')
+				artifactId.setTextContent('lf-keratin')
 				Node version = dependency.appendChild(document.createElement('version'))
 				version.setTextContent(project.version + '-SNAPSHOT')
 			})
 		}
 	}
 	repositories {
-		maven {
-			name = 'release'
-			if (ENV.MAVEN_URL) {
-				url ENV.MAVEN_URL
+		if (ENV.MAVEN_PUBLISH_CREDENTIALS) {
+			maven {
+				url "https://repo.legacyfabric.net/repository/legacyfabric"
 				credentials {
-					username ENV.MAVEN_USERNAME
-					password ENV.MAVEN_PASSWORD
+					username ENV.MAVEN_PUBLISH_CREDENTIALS.split(":")[0]
+					password ENV.MAVEN_PUBLISH_CREDENTIALS.split(":")[1]
+				}
+				authentication {
+					basic(BasicAuthentication)
 				}
 			}
 		}
-		maven {
-			name = "snapshot"
-			if (ENV.SNAPSHOTS_URL) {
-				url ENV.SNAPSHOTS_URL
-				credentials {
-					username ENV.SNAPSHOTS_USERNAME
-					password ENV.SNAPSHOTS_PASSWORD
-				}
-			}
-		}
-	}
-}
-
-tasks.withType(PublishToMavenRepository) {
-	onlyIf {
-		(repository == publishing.repositories.release && publication == publishing.publications.plugin)
-				||
-				(repository == publishing.repositories.snapshot
-						&& (publication == publishing.publications.snapshot
-						|| publication == publishing.publications.snapshotPlugin))
-				|| (repository == publishing.repositories.release && publication.name == "keratinPluginMarkerMaven")
 	}
 }

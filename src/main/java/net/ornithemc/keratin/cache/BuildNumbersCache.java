@@ -40,11 +40,11 @@ public class BuildNumbersCache {
 		this.builds = new HashMap<>();
 		this.buildNumbers = new HashMap<>();
 
-		try {
-			loadFromCache();
-		} catch (IOException e) {
-			keratin.getProject().getLogger().lifecycle("error while load build numbers from cache " + cacheFile.getName(), e);
-		}
+//		try {
+//			loadFromCache();
+//		} catch (IOException e) {
+//			keratin.getProject().getLogger().lifecycle("error while load build numbers from cache " + cacheFile.getName(), e);
+//		}
 	}
 
 	private void loadFromCache() throws IOException {

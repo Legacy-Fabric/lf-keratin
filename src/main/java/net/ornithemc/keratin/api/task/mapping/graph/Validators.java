@@ -22,7 +22,7 @@ public class Validators {
 
 			@Override
 			public boolean validate(ClassMapping c) {
-				if (!MappingsDiff.safeIsDiff(fullClassNames ? c.src() : ClassMapping.getSimplified(c.src()), fullClassNames ? c.getComplete() : c.get()) && (c.get().startsWith("C_") || c.get().startsWith("net/minecraft/unmapped/C_"))) {
+				if (!MappingsDiff.safeIsDiff(fullClassNames ? c.src() : ClassMapping.getSimplified(c.src()), fullClassNames ? c.getComplete() : c.get()) && (c.get().startsWith("class_") || c.get().startsWith("net/minecraft/class_"))) {
 					c.set("");
 					return !c.getJavadoc().isEmpty() || c.hasChildren();
 				}
@@ -32,7 +32,7 @@ public class Validators {
 
 			@Override
 			public boolean validate(FieldMapping f) {
-				if (!MappingsDiff.safeIsDiff(f.src(), f.get()) && f.get().startsWith("f_")) {
+				if (!MappingsDiff.safeIsDiff(f.src(), f.get()) && f.get().startsWith("field_")) {
 					f.set("");
 					return !f.getJavadoc().isEmpty();
 				}
@@ -42,7 +42,7 @@ public class Validators {
 
 			@Override
 			public boolean validate(MethodMapping m) {
-				if (!MappingsDiff.safeIsDiff(m.src(), m.get()) && (m.get().startsWith("m_") || m.get().equals("<init>") || m.get().equals("<clinit>"))) {
+				if (!MappingsDiff.safeIsDiff(m.src(), m.get()) && (m.get().startsWith("method_") || m.get().equals("<init>") || m.get().equals("<clinit>"))) {
 					m.set("");
 					return !m.getJavadoc().isEmpty() || m.hasChildren();
 				}
