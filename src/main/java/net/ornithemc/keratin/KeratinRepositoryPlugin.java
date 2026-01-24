@@ -45,9 +45,9 @@ public class KeratinRepositoryPlugin implements Plugin<PluginAware> {
 		repositories.maven(repo -> {
 			repo.setName(Constants.LEGACY_FABRIC_MAVEN_NAME);
 			repo.setUrl(Constants.LEGACY_FABRIC_MAVEN_URL);
-			repo.content(content -> {
-				content.includeGroup("org.lwjgl.lwjgl");
-			});
+//			repo.content(content -> {
+//				content.includeGroup("org.lwjgl.lwjgl");
+//			});
 		});
 		repositories.maven(repository -> {
 			repository.setName(Constants.VINEFLOWER_SNAPSHOTS_MAVEN_NAME);

@@ -14,11 +14,11 @@ public record VersionDetails(String id, String normalizedVersion, boolean client
 
 	@Override
 	public int compareTo(VersionDetails o) {
-		return new Semver(normalize(id)).compareTo(new Semver(normalize(o.id)));
+        return new Semver(Objects.requireNonNullElseGet(normalizedVersion, () -> normalize(id))).compareTo(new Semver(Objects.requireNonNullElseGet(o.normalizedVersion, () -> normalize(o.id))));
 	}
 
 	public int compareTo(String o) {
-		return new Semver(normalize(id)).compareTo(new Semver(normalize(o)));
+        return new Semver(Objects.requireNonNullElseGet(normalizedVersion, () -> normalize(id))).compareTo(new Semver(normalize(o)));
 	}
 
 	public static String normalize(String version) {

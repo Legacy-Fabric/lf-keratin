@@ -5,11 +5,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.apache.commons.io.FileUtils;
 
@@ -228,7 +224,7 @@ public class KeratinGradleExtension implements KeratinGradleExtensionAPI {
 			VersionsManifest.Entry entry = manifest.findOrThrow(minecraftVersion);
 
 			try {
-				Downloader.download(project, entry.url(), entry.detailsSha1(), file);
+				Downloader.download(project, Objects.requireNonNullElse(entry.details(), entry.url()), entry.detailsSha1(), file);
 			} catch (Exception e) {
 				// if the file already exits, just use it despite the download failing
 				// it is likely still valid anyway
@@ -348,9 +344,9 @@ public class KeratinGradleExtension implements KeratinGradleExtensionAPI {
 
 	@SuppressWarnings("unused")
 	private Set<MinecraftVersion> configure(TaskSelection selection) throws Exception {
-		if (intermediaryGen.get() < 2) {
-			throw new RuntimeException("gen1 is no longer supported!");
-		}
+//		if (intermediaryGen.get() < 2) {
+//			throw new RuntimeException("gen1 is no longer supported!");
+//		}
 
 		files = new KeratinFiles(this);
 		files.mkdirs(selection);
