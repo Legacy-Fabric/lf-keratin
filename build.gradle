@@ -10,7 +10,7 @@ def ENV = System.getenv()
 base {
 	archivesName = project.name
 }
-version = '41.2.21'
+version = '41.2.22'
 group = project.maven_group
 
 //if (!ENV.MAVEN_URL) {
@@ -102,13 +102,13 @@ import org.w3c.dom.Node
 
 publishing {
 	publications {
-		plugin(MavenPublication) {
-			groupId group
-			artifactId base.archivesName.get()
-			version version
-
-			from components.java
-		}
+//		plugin(MavenPublication) {
+//			groupId group
+//			artifactId base.archivesName.get()
+//			version version
+//
+//			from components.java
+//		}
 	}
 	repositories {
 		if (ENV.MAVEN_PUBLISH_CREDENTIALS) {
