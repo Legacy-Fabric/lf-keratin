@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -127,7 +129,7 @@ public abstract class MetaSourcedMultipleBuildsMavenArtifacts implements MetaSou
 
 				try {
 					String sha1Path = artifact.url() + ".sha1";
-					URL sha1Url = new URI(sha1Path).toURL();
+					URL sha1Url = new URI(sha1Path.replaceAll(" ", "%20")).toURL();
 
 					try (BufferedReader br = new BufferedReader(new InputStreamReader(sha1Url.openStream()))) {
 						artifact = artifact.withSha1(br.readLine());
